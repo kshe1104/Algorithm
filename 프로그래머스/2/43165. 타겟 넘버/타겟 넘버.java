@@ -1,19 +1,18 @@
 class Solution {
-    int answer=0;
-    public int solution(int[] numbers, int target) {
-       dfs(numbers,0,target,0);
+    public int answer = 0;
+    public int solution(int[] numbers, int target) {dfs(0,0,numbers,target);
         return answer;
+        
     }
     
-    //깊이 우선 탐색
-    public void dfs(int[] numbers,int depth,int target,int sum){
-        int len =numbers.length; 
-        if(depth==len){ 
-            if(target==sum) answer++;
+    public void dfs(int depth,int sum, int[] numbers,int target){
+        if(depth==numbers.length){ // 모든 숫자 다 활용했다면
+            if(sum==target) answer++; //근데 target을 만족했다면 정답수+1
+        
+            return; //아니라면 그냥 return
         }
-            else{
-                dfs(numbers,depth+1,target,sum+numbers[depth]);
-                dfs(numbers,depth+1,target,sum-numbers[depth]);
-            }
-        }
-    }
+    dfs(depth+1,sum+numbers[depth],numbers,target);
+    
+    dfs(depth+1,sum-numbers[depth],numbers,target);
+    }    
+}
