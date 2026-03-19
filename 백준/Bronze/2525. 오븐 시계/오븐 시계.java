@@ -1,4 +1,5 @@
 
+
 import java.util.Scanner;
 
 public class Main {
@@ -13,13 +14,13 @@ public class Main {
         hour += cook_hr;
         minute += cook_min;
 
-        if (minute > 59) {
-            hour++;
-            minute = minute - 60;
-        }
+        if(minute>59){
+            hour += minute / 60;
+            minute = minute % 60;
 
+        }
         if(hour>23){
-            hour%=24;
+            hour %= 24;
         }
         System.out.println(hour + " " + minute);
     }
