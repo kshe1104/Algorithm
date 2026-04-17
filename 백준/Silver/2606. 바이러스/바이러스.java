@@ -1,13 +1,18 @@
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
     static int count = 0;
-    public static void main(String[] args) {
-        Scanner sr = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
 
-        int computer = sr.nextInt(); //컴퓨터 갯수
-        int bridge = sr.nextInt(); // 직접 연결되어있는 컴퓨터의 수
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+
+        int computer = Integer.parseInt(br.readLine()); // 컴퓨터 갯수
+        int bridge = Integer.parseInt(br.readLine()); // 직접 연결되어있는 컴퓨터의 수
 
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(); // 2차원 배열 생성
         // int[][] list  = new int[n][m] 과같음
@@ -18,8 +23,10 @@ public class Main {
         }
 
         for (int i = 0; i < bridge; i++) {
-            int a = sr.nextInt();
-            int b = sr.nextInt(); // 연결정보 입력받기
+
+            StringTokenizer st = new StringTokenizer(br.readLine());// 공백으로 나눠진 숫자읽기
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken()); // 연결정보 입력받기
 
             graph.get(a).add(b);
             graph.get(b).add(a);
