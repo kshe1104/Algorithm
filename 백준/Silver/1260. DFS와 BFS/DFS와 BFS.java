@@ -1,11 +1,20 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main{
-    public static void main(String[] args) {
-        Scanner sr = new Scanner(System.in); //입력
-        int n = sr.nextInt(); // 정점의 갯수
-        int m = sr.nextInt(); // 간선의 갯수
-        int start = sr.nextInt(); // 탐색을 시작할 정점의 갯수
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+//        Scanner sr = new Scanner(System.in); //입력
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int n = Integer.parseInt(st.nextToken()); // 정점의 갯수
+        int m = Integer.parseInt(st.nextToken()); // 간선의 갯수
+        int start = Integer.parseInt(st.nextToken()); // 탐색을 시작할 정점의 갯수
+
         ArrayList<ArrayList<Integer>> graph = new ArrayList<>(); //간선저장
 
         // 1. 그래프 초기화(정점의 갯수만큼 리스트 객체 생성)
@@ -15,9 +24,10 @@ public class Main{
 
         // 2. 간선 저장
         for (int i = 0; i < m; i++) {
-            int a = sr.nextInt();
-            int b = sr.nextInt();
-            
+            st = new StringTokenizer(br.readLine()); //매 줄마다 새로 잘라줘야함
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+
             graph.get(a).add(b);
             graph.get(b).add(a);
         }
@@ -28,8 +38,8 @@ public class Main{
         }
 
 
-        boolean[] visited_DFS = new boolean[n+1];
-        dfs(start, graph, visited_DFS);
+        boolean[] visited_DFS = new boolean[n + 1];
+        dfs(start, graph, visited_DFS); // static으로 인해 체인으로 부르지 않아도 사용가능
         System.out.println();
 
         boolean[] visited_BFS = new boolean[n + 1];
