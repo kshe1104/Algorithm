@@ -1,61 +1,56 @@
 import java.util.*;
-class Solution {
-    public int solution(String begin, String target, String[] words) {
-        // 1. target 이 words 안에 있는지 체크
-        boolean exists = false;
-        for (String w : words) {
-            if(w.equals(target)){
-                exists = true;
-                break;
-            }
-        }
-        if(!exists) return 0;
-
-        // 2. BFS -> 큐와 방문배열
-        Queue<Node> q = new LinkedList<>();
-        boolean visited[] = new boolean[words.length];
-
-        //시작 단어와 단계 0부터 시작
-        q.offer(new Node(begin, 0));
-
-        while (!q.isEmpty()) {
-            Node cur = q.poll();
-
-            // 3. target에 도달하면 그때의 단계 수 반환
-            if (cur.word.equals(target)) {
-                return cur.step;
-            }
-
-            // 4. 아직 방문하지않은 word 중에서
-            // 현재 단어와 한 글자만 다른 단어들을 큐에 넣음
+class Solution{
+        public int solution(String begin,String target,String[] words){
+            // target이 words[] 안에 있는 지 확인 없으면 끝
             for (int i = 0; i < words.length; i++) {
-                if (!visited[i] && canConvert(cur.word, words[i])) {
-                    visited[i] = true;
-                    q.offer(new Node(words[i], cur.step + 1));
+                boolean have = false;
+                if(target.equals(words[i])) {
+                    have = true;
+                    break;
+                }
+
+            }
+
+            boolean[] visited = new boolean[words.length]; // words에 방문표시
+
+            Queue<Node> queue = new LinkedList<>();
+            queue.add(new Node(begin,0)); // 시작단어 큐에 넣고 시작
+
+
+            while (!queue.isEmpty()) {
+                Node current = queue.poll(); // 큐에서 꺼냄
+
+                // 만약 현재 단어가 target과 같다면 바로 정답 반환
+                if(current.word.equals(target)) return current.count;
+
+                // words 배열 순회하면서 다음에 갈 수 있는 단어 찾기
+                for (int i = 0; i < words.length; i++) {
+                    // 1. 아직 방문x , 2. 한 글자만 다르다면
+                    if (!visited[i] && canConvert(current.word, words[i])) {
+                        visited[i] = true;
+                        queue.add(new Node(words[i], current.count + 1));
+                    }
                 }
             }
+            return 0;
         }
-        
-        // 여기까지 왔다 -> target에 도달하지 못함
-        return 0;
-    }
 
-    private static class Node {
+        public boolean canConvert(String s1, String s2) {
+            int diffCount = 0; // 몇글자 차이나나
+            for (int i = 0; i < s1.length(); i++) { // 글자 수 만큼 비교
+                if (s1.charAt(i) != s2.charAt(i)) { // 다르다면 count++
+                    diffCount++;
+                }
+            }
+            if(diffCount==1) return true;
+            else return false;
+        }    static class Node{
         String word;
-        int step;
+        int count;
 
-        public Node(String word, int step) { // 명시적으로 생성자 만들어줌
+        Node(String word, int count) {
             this.word = word;
-            this.step = step;
+            this.count = count;
         }
     }
-
-    private boolean canConvert(String a, String b) {
-        int diff = 0;
-        for (int i = 0; i < a.length(); i++) {
-            if(a.charAt(i)!=b.charAt(i)) diff++;
-            if(diff>1) return false; // 2글자 이상 다르면 바로 false
-        }
-        return diff == 1; // diff가 1인지아닌지 반환
     }
-}
