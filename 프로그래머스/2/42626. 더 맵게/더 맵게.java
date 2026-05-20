@@ -1,24 +1,17 @@
-import java.util.*;
-class Solution {
-    public int solution(int[] sco, int K) {
-        PriorityQueue<Integer> heap = new PriorityQueue<>();
-                for (int i : sco) {
-            heap.add(i);
-        }
-        int count = 0;
-                while (heap.size() > 1 && heap.peek() < K) {
-            int first = heap.poll();
-            int second = heap.poll();
-
-            int new_Scovile = first + (second * 2);
-            heap.add(new_Scovile);
-            count++;
-
-        }if (heap.peek() >= K) {
+import java.util.*;    
+class Solution{
+        public int solution(int[] scoville,int k){
+            int count = 0;
+            PriorityQueue<Integer> pq = new PriorityQueue<>(); //우선순위 큐
+            for (int i = 0; i < scoville.length; i++) {
+                pq.add(scoville[i]);
+            }
+            while(pq.peek()<k){
+                if(pq.size()<2) return -1;
+                int food = pq.poll() + pq.poll() * 2;
+                pq.add(food);
+                count++;
+            }
             return count;
-        } else{
-            return -1;
         }
-  
     }
-}
