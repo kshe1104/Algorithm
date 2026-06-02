@@ -1,21 +1,18 @@
     class Solution{
-        int maxDungeons = 0;
+        int max_tired = 0;
 
         public int solution(int k, int[][] dungeons) {
-            boolean[] visited = new boolean[dungeons.length];
-            dfs(0, k, dungeons, visited);
-            return maxDungeons;
+            boolean[] visited = new boolean[dungeons.length]; // 던전 방문여부
+            dfs(0, k , dungeons, visited);
+            return max_tired;
         }
 
-        private void dfs(int depth, int fatigue, int[][] dungeons, boolean[] visited) {
-            // 던전에 들어와서 지금 내 깊이와 최고기록을 비교
-            maxDungeons = Math.max(maxDungeons, depth);
+        public void dfs(int depth, int tired, int[][] dungeons, boolean[] visited) {
+            max_tired = Math.max(depth, max_tired); // 최댓값 검사
             for (int i = 0; i < dungeons.length; i++) {
-                if (!visited[i] && fatigue >= dungeons[i][0]) {
+                if (!visited[i] && tired >= dungeons[i][0]) {
                     visited[i] = true;
-                    
-                    dfs(depth + 1, fatigue - dungeons[i][1], dungeons, visited);
-
+                    dfs(depth+1,tired-dungeons[i][1],dungeons,visited);
                     visited[i] = false;
                 }
             }
